@@ -32,21 +32,20 @@ The following diagram illustrates the decoupled access pattern. Notice how **Thr
 
 ```mermaid
 graph LR
-    subgraph Producers ["🔒 tail_mutex"]
-        T[Thread A] --> Tail
-    end
-
     subgraph Queue ["Linked List Structure"]
         Head["Head (Node 1)"] --> Node2["Node 2"]
         Node2 --> Dummy["Sentinel (Tail)"]
     end
 
-    subgraph Consumers ["🔒 head_mutex"]
+    subgraph Producers ["tail_mutex"]
+        T[Thread A] --> Dummy
+    end
+
+    subgraph Consumers ["head_mutex"]
         Pop[Thread B] --> Head
     end
 
     style Dummy fill:#f9f,stroke:#333,stroke-dasharray: 5 5
-    style Tail fill:#fff0,stroke:#fff0
 ```
 
 ## 🛠️ API Reference
